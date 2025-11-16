@@ -1,0 +1,53 @@
+
+    // Key Performance Indicators
+    Total Energy = SUM('gold_daily_aggregates'[energy_kWh])
+    
+    Average Daily Energy = AVERAGE('gold_daily_aggregates'[energy_kWh])
+    
+    Peak Energy = MAX('gold_daily_aggregates'[energy_kWh])
+    
+    Total Devices = DISTINCTCOUNT('gold_daily_aggregates'[device_id])
+    
+    // Time Intelligence
+    Previous Month Energy = 
+    CALCULATE(
+        [Total Energy],
+        DATEADD('date_dimension'[Date], -1, MONTH)
+    )
+    
+    Month over Month Growth = 
+    DIVIDE(
+        [Total Energy] - [Previous Month Energy],
+        [Previous Month Energy],
+        0
+    )
+    
+    // Rolling Averages
+    7 Day Moving Average = 
+    CALCULATE(
+        AVERAGE('gold_daily_aggregates'[energy_kWh]),
+        DATESINPERIOD(
+            'date_dimension'[Date],
+            LASTDATE('date_dimension'[Date]),
+            -7,
+            DAY
+        )
+    )
+    
+    // Efficiency Metrics
+    Energy Efficiency = 
+    DIVIDE(
+        [Total Energy],
+        MAX('gold_daily_aggregates'[total_power_kW]),
+        0
+    )
+    
+    // Conditional Formatting
+    Energy Status = 
+    SWITCH(
+        TRUE(),
+        [Total Energy] > 1000, "High",
+        [Total Energy] > 500, "Medium",
+        "Low"
+    )
+    
