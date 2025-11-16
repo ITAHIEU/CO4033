@@ -222,7 +222,3 @@ CSV file với các columns sau:
 ### Custom Configurations
 - Modify `config/constants.py` cho business rules
 - Update `config/settings.py` cho environment settings
-
-## Tác Giả
-
-IoT Power Analytics Pipeline - Refactored for modularity and local execution support.
