@@ -1,0 +1,63 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+iot_env/
+venv/
+env/
+.env
+
+# Large data files (keep structure but ignore large files)
+iot_pipeline/data/bronze/*.parquet
+iot_pipeline/data/silver/*.parquet
+iot_pipeline/data/gold/*.parquet
+powerbi_data/*.csv
+
+# But allow sample and config files
+!iot_pipeline/data/sample_power_data.csv
+!iot_pipeline/data/.gitkeep
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Large binary files
+*.dll
+*.jar
+*.zip
+
+# Logs
+*.log
+
+# Temporary folders
+iot_pipeline_clean/
+iot_pipeline_clean_final/
+*.tar.gz
