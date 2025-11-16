@@ -191,37 +191,15 @@ def create_features(self, df):
     df["month_cos"] = np.cos(2 * np.pi * df.index.month / 12)
 ```
 
-## 🏃‍♂️ Chạy Pipeline
-
-### Cách 1: Full Pipeline
+## 🏃‍♂️ Chạy Pipeline: Standalone Testing 
 ```bash
-# Chạy toàn bộ pipeline
-python main.py --environment local --input-path "data/sample_power_data.csv" --stage full --enhanced
 
-# Chỉ chạy forecasting
-python main.py --environment local --input-path "data/sample_power_data.csv" --stage forecast --enhanced --hyperparameter-tuning
-```
-
-### Cách 2: Standalone Testing
-```bash
-# Test enhanced forecasting (không cần Spark)
 python test_enhanced_real.py
+
+# Kết quả: 6 ML models, feature engineering, performance metrics
+# Output: enhanced_forecast_data.csv ready for Power BI
 ```
 
-### Cách 3: Từng bước
-```bash
-# Bronze layer
-python main.py -e local -i "data/input.csv" -s bronze
-
-# Silver layer  
-python main.py -e local -i "data/input.csv" -s silver
-
-# Gold layer
-python main.py -e local -s gold
-
-# Forecasting
-python main.py -e local -s forecast --enhanced
-```
 
 ## 📈 Performance Benchmarks
 
@@ -265,13 +243,26 @@ python export_for_powerbi.py
 
 ### Lỗi Spark trên Windows:
 ```bash
-# Nếu gặp lỗi JavaPackage
+# COMMON ERROR: TypeError: 'JavaPackage' object is not callable
+# Đây là lỗi phổ biến với PySpark trên Windows
+
+# GIẢI PHÁP 1: Sử dụng standalone mode (KHUYẾN NGHỊ)
+python test_enhanced_real.py
+
+# GIẢI PHÁP 2: Downgrade PySpark
 pip uninstall pyspark
 pip install pyspark==3.4.0
 
-# Hoặc sử dụng standalone mode
-python test_enhanced_real.py
+# GIẢI PHÁP 3: Set JAVA_HOME (nếu có Java)
+# set JAVA_HOME=C:\Program Files\Java\jdk-11.0.x
+# set PATH=%JAVA_HOME%\bin;%PATH%
+
+# GIẢI PHÁP 4: Sử dụng WSL (Windows Subsystem for Linux)
+wsl
+python main.py --stage full --enhanced
 ```
+
+**⚠️ LƯU Ý**: Trên Windows, khuyến nghị sử dụng `test_enhanced_real.py` thay vì `main.py` để tránh Spark issues.
 
 ### Lỗi Missing Dependencies:
 ```bash
